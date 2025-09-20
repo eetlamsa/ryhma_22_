@@ -48,4 +48,7 @@ void show1(void);
 */
 void show2(int);
 
+extern byte ledSequence[200];
+extern int sequenceLength;
+
 #endif
