@@ -56,8 +56,8 @@ void show1()
 void show2(int rounds)
 {
 int delayTime = 300; //aloitus nopeus
- int mDelay = 80; // suurin nopeus
- int step = 20; // nopeuden lisääminen per kierros
+ int maxDelay = 80; // suurin nopeus
+ int lvlup = 20; // nopeuden lisääminen per kierros
 
  sequenceLength = 0; // edellisen pelin nollaus?
  
@@ -82,8 +82,8 @@ int delayTime = 300; //aloitus nopeus
       delay(50);
  }
   //nopeutus
- if (delayTime > minDelay) {
-      delayTime -= step; 
+ if (delayTime > maxDelay) {
+      delayTime - lvlup; 
  }
  }
 clearAllLeds();
