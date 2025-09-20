@@ -54,4 +54,17 @@ void show1()
 
 void show2(int rounds)
 {
+int delayTime = 300;
+  int minDelay = 50;
+  int step = 10;
+
+  for (int r = 0; r < rounds; r++) {
+    clearAllLeds(); digitalWrite(A2, HIGH); delay(delayTime);
+    clearAllLeds(); digitalWrite(A3, HIGH); delay(delayTime);
+    clearAllLeds(); digitalWrite(A4, HIGH); delay(delayTime);
+    clearAllLeds(); digitalWrite(A5, HIGH); delay(delayTime);
+
+    if (delayTime > minDelay) delayTime -= step; // increase speed
+  }
+  clearAllLeds();
 }
