@@ -1,6 +1,7 @@
 #include "leds.h"
 
-
+byte ledSequence[200]; // taulukko johon ledien järj. tallenetaan
+int sequenceLength = 0;
 void initializeLeds()
 {
  pinMode(A2, OUTPUT);
@@ -54,25 +55,33 @@ void show1()
 
 void show2(int rounds)
 {
-int delayTime = 300;
- int mDelay = 80;
- int step = 20;
+int delayTime = 300; //aloitus nopeus
+ int mDelay = 80; // suurin nopeus
+ int step = 20; // nopeuden lisääminen per kierros
 
+ sequenceLength = 0; // edellisen pelin nollaus?
+ 
  for (int r = 0; r < roudns; r++) {
-  byte leds[4] = {0, 1, 2, 3};
+  byte leds[4] = {0, 1, 2, 3}; //taulukko 
 
+  //ledien random järjestyksen syöttäminen
   for (int i = 3; i > 0; i--) {
    int j = random(i+ 1);
    byte temp = leds[i];
    leds[i] = leds = [j];
    leds[j] = temp;
 }
+  //ledien sytytys ja järjestyksen tallennus
  for (int i = 0; i < 4; i++) {
-      setLed(leds[i]);
+  byte lit = leds[i];
+  ledSequence[sequenceLength++] = lit;
+  
+      setLed(lit);
       delay(delayTime);
       clearAllLeds();
       delay(50);
  }
+  //nopeutus
  if (delayTime > minDelay) {
       delayTime -= step; 
  }
