@@ -55,16 +55,27 @@ void show1()
 void show2(int rounds)
 {
 int delayTime = 300;
-  int minDelay = 50;
-  int step = 10;
+ int mDelay = 80;
+ int step = 20;
 
-  for (int r = 0; r < rounds; r++) {
-    clearAllLeds(); digitalWrite(A2, HIGH); delay(delayTime);
-    clearAllLeds(); digitalWrite(A3, HIGH); delay(delayTime);
-    clearAllLeds(); digitalWrite(A4, HIGH); delay(delayTime);
-    clearAllLeds(); digitalWrite(A5, HIGH); delay(delayTime);
+ for (int r = 0; r < roudns; r++) {
+  byte leds[4] = {0, 1, 2, 3};
 
-    if (delayTime > minDelay) delayTime -= step; // increase speed
-  }
-  clearAllLeds();
+  for (int i = 3; i > 0; i--) {
+   int j = random(i+ 1);
+   byte temp = leds[i];
+   leds[i] = leds = [j];
+   leds[j] = temp;
+}
+ for (int i = 0; i < 4; i++) {
+      setLed(leds[i]);
+      delay(delayTime);
+      clearAllLeds();
+      delay(50);
+ }
+ if (delayTime > minDelay) {
+      delayTime -= step; 
+ }
+ }
+clearAllLeds();
 }
