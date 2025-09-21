@@ -57,8 +57,8 @@ void show1()
 void show2(int rounds)
 {
 
-int delayTime = 300; //aloitus nopeus
- int maxDelay = 80; // suurin nopeus
+int delayTime = 800; //aloitus nopeus
+ int maxDelay = 100; // suurin nopeus
  int lvlup = 20; // nopeuden lisääminen per kierros
 
  sequenceLength = 0; 
