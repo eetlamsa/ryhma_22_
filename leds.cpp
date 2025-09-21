@@ -19,7 +19,7 @@ void setLed(byte ledNumber)
 {
 clearAllLeds();
  
- if (ledeNumber == 0) digitalWrite(A2, HIGH);
+ if (ledNumber == 0) digitalWrite(A2, HIGH);
  else if (ledNumber == 1) digitalWrite(A3, HIGH);
  else if (ledNumber == 2) digitalWrite(A4, HIGH);
  else if (ledNumber == 3) digitalWrite(A5, HIGH);
@@ -52,23 +52,27 @@ void show1()
   digitalWrite(A5, (value & 0x08) ? HIGH : LOW);
    delay(300);
 }
+}
 
 void show2(int rounds)
 {
+
 int delayTime = 300; //aloitus nopeus
  int maxDelay = 80; // suurin nopeus
  int lvlup = 20; // nopeuden lisääminen per kierros
 
- sequenceLength = 0; // edellisen pelin nollaus?
+ sequenceLength = 0; 
+ // edellisen pelin nollaus?
  
- for (int r = 0; r < roudns; r++) {
+ 
+ for (int r = 0; r < rounds; r++) {
   byte leds[4] = {0, 1, 2, 3}; //taulukko 
 
   //ledien random järjestyksen syöttäminen
   for (int i = 3; i > 0; i--) {
    int j = random(i+ 1);
    byte temp = leds[i];
-   leds[i] = leds = [j];
+   leds[i] = leds[j];
    leds[j] = temp;
 }
   //ledien sytytys ja järjestyksen tallennus
