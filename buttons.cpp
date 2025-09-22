@@ -1,17 +1,41 @@
 #include "buttons.h"
 
-
-
+extern volatile int buttonNumber;
 
 void initButtonsAndButtonInterrupts(void)
 {
-  // See requirements for this function from buttons.h
+  //Alustetaan napit tuloiksi
+  for (int i = 2; i < 7; i++) {
+    pinMode(i, INPUT_PULLUP);
+  }
+
+  PCICR = 0b00000100; //PCIE2 portD keskeytykset aktivoitu
+
+  PCMSK2 = 0b01111100; //Keskeytykset sallittu pinneille 2-6
+
 }
 
 ISR(PCINT2_vect) {
+
+  if (!(PIND & (1 << PIND2))) {
+  buttonNumber = 2; //Pinni 2 nappi
+  }
+  else if (!(PIND &(1 << PIND3))) {
+    buttonNumber = 3; //Pinni 3 nappi
+  }
+  else if (!(PIND &(1 << PIND4))) {
+    buttonNumber = 4;//Pinni 4 nappi
+  }
+  else if (!(PIND &(1 << PIND5))) {
+    buttonNumber = 5;//Pinni 5 nappi
+  }
+  else if (!(PIND &(1 << PIND6))) {
+    buttonNumber = 6; //Pinni 6 nappi (aloitus)?
+  }
+}
+
    /*
      Here you implement logic for handling
 	 interrupts from 2,3,4,5 pins for Game push buttons
 	 and for pin 6 for start Game push button.
    */
-}
