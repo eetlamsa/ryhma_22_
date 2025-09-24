@@ -1,5 +1,5 @@
 #include "leds.h"
-
+//vastuksen kautta käyttösähköön
 byte ledSequence[200]; // taulukko johon ledien järj. tallenetaan
 int sequenceLength = 0;
 void initializeLeds()
