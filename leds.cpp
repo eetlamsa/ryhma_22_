@@ -87,7 +87,7 @@ int delayTime = 800; //aloitus nopeus
  }
   //nopeutus
  if (delayTime > maxDelay) {
-      delayTime - lvlup; 
+      delayTime -= lvlup; 
  }
  }
 clearAllLeds();
