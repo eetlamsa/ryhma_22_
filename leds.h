@@ -2,6 +2,8 @@
 #define LEDS_H
 #include <arduino.h>
 extern volatile byte ledRegister;
+extern byte ledSequence[200];
+extern int sequenceLength;
 /*
   initializeLeds() subroutine intializes analog pins A2,A3,A4,A5
   to be used as outputs. Speden Spelit leds are connected to those
@@ -48,7 +50,6 @@ void show1(void);
 */
 void show2(int);
 
-extern byte ledSequence[200];
-extern int sequenceLength;
+
 
 #endif
