@@ -1,7 +1,5 @@
 #include "leds.h"
-//vastuksen kautta käyttösähköön
-byte ledSequence[200]; // taulukko johon ledien järj. tallenetaan
-int sequenceLength = 0;
+extern volatile byte ledRegister;
 void initializeLeds()
 {
  pinMode(A2, OUTPUT);
