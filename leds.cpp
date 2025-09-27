@@ -1,6 +1,8 @@
 #include "leds.h"
 
 volatile byte ledRegister = 0;
+byte ldeSequence[200];
+int sequenceLength = 0:
 
 void initializeLeds()
 {
@@ -54,6 +56,8 @@ void show1()
   digitalWrite(A3, (value & 0x02) ? HIGH : LOW);
   digitalWrite(A4, (value & 0x04) ? HIGH : LOW);
   digitalWrite(A5, (value & 0x08) ? HIGH : LOW);
+
+  ledRegister = value & 0x0F;
    delay(300);
 }
 }
