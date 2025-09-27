@@ -1,5 +1,7 @@
 #include "leds.h"
-extern volatile byte ledRegister;
+
+volatile byte ledRegister = 0;
+
 void initializeLeds()
 {
  pinMode(A2, OUTPUT);
@@ -16,6 +18,8 @@ void initializeLeds()
 void setLed(byte ledNumber)
 {
 clearAllLeds();
+
+ ledRegister = (1 << ledNumber);
  
  if (ledNumber == 0) digitalWrite(A2, HIGH);
  else if (ledNumber == 1) digitalWrite(A3, HIGH);
@@ -30,6 +34,7 @@ void clearAllLeds()
  digitalWrite(A3, LOW);
  digitalWrite(A4, LOW);
  digitalWrite(A5, LOW); 
+ ledRegister = 0;
 }
 
 void setAllLeds()
@@ -38,6 +43,7 @@ void setAllLeds()
  digitalWrite(A3, HIGH);
  digitalWrite(A4, HIGH);
  digitalWrite(A5, HIGH);
+ ledRegister = 0b1111;
 }
 
 
