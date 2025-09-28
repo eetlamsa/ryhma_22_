@@ -11,4 +11,8 @@ void startTimer(void);
 
 void stopTimer(void);
 
+unsigned long getTickCount(void);
+
+void resetTickCount(void);
+
 #endif
