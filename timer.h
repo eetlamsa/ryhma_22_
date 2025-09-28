@@ -1,13 +1,14 @@
 #ifndef TIMER_H
 #define TIMER_H
 
+#include <Arduino.h>
 
+extern volatile bool newTimerInterrupt;
 
-// Ajastimen alustus
-void timer1_init(uint16_t compareMatch, uint16_t prescaler);
+void initializeTimer(void);
 
-// Ajastimen pysäytys
-void timer1_stop();
+void startTimer(void);
+
+void stopTimer(void);
 
 #endif
-
