@@ -2,6 +2,7 @@
 #include "leds.h"
 #include "buttons.h"
 
+
 void timer1_init(uint16_t compareMatch, uint16_t prescaler) {
   cli(); //keskeytykset pois
   TCCR1A = 0;
