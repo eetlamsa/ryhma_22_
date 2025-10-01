@@ -3,60 +3,54 @@
 #include <arduino.h>
 
 
-/*
-  initializeDisplay subroutine initializes 5 pins needed for controlling 7-segment
-  displays in a cascade as follows:
-  Arduino pin 12 = serial to parallel component reset
-  Arduino pin 11 = serial to parallel component shiftClock
-  Arduino pin 10 = serial to parallel component latchClock
-  Arduino pin 9  = serial to parallel component outEnable
-  Arduino pin 8  = serial to parallel component serialInput
-  
 
-*/
+static const uint8_t DIGIT_CC[10] = {
+  0x3F, // 0
+  0x06, // 1 
+  0x5B, // 2 
+  0x4F, // 3 
+  0x66, // 4 
+  0x6D, // 5 
+  0x7D, // 6 
+  0x07, // 7 
+  0x7F, // 8 
+  0x6F  // 9
+};
+
+static const uint8_t SEG_BLANK = 0x00; 
+
+const uint8_t PIN_SER = 8;
+const uint8_t PIN_OE  = 9;
+const uint8_t PIN_LATCH = 10;
+const uint8_t PIN_CLOCK = 11;
+const uint8_t PIN_RESET = 12;
+
+static const uint8_t SEG_A  = 0;
+static const uint8_t SEG_B  = 1;
+static const uint8_t SEG_C  = 2;
+static const uint8_t SEG_D  = 3;
+static const uint8_t SEG_E  = 4;
+static const uint8_t SEG_F  = 5;
+static const uint8_t SEG_G  = 6;
+static const uint8_t SEG_DP = 7;
+
 void initializeDisplay(void);
 
+static inline void setDataBit(bool v);
 
-/*
-  WriteByte subroutine writes number 0,1,...,9 to
-  7-segment display. If there are many 7-segment
-  displays cascaded, last parameter can be used to
-  control when number is actually shown at the outputs of
-  display element.
-  
-  Parameters:
-  uint8_t number: accepts values 0,1,..,9
-  
-  bool last: either true or false. True = number is displayed
-  at the output, false is used if this function is called
-  multiple times to write all cascaded numbers to 7-segment
-  displays.
-*/
+
+static inline void pulseClock();
+
+static inline void pulseLatch();
+
+static void shiftOutByte(uint8_t value);
+
 void writeByte(uint8_t number, bool last);
 
 
-/*
-  writeHighAndLowNumber subroutine writes a number 0,1,..,99
-  to 2 cascaded 7-segment displays. This subroutine uses
-  WriteByte subroutine to write 2 numbers to the display.
-  
-  Parameters:
-  
-  uint8_t tens: number 0,1,..,9
-  uint8_t ones: number 0,1,..,9
-  
-*/
+
 void writeHighAndLowNumber(uint8_t tens,uint8_t ones);
 
 
-/*
-  showResuts(byte result) This function separates tens and ones
-  from a result number and calls writeHighAndLowNumber subroutine
-  to actually write the number to 7-segment display.
-  
-  Parameters:
-  byte result: A number between 0,1,..,99. This function
-*/
 void showResult(byte result);
-
 #endif
