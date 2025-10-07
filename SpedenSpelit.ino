@@ -1,7 +1,9 @@
 #include "buttons.h" 
 #include "leds.h"
 #include "SpedenSpelit.h"
-#include "timer.h"
+#include "timer.h"   // use your timer module
+#include "display.h"
+
 
 // -------- Declarations --------
 void initializeGame(void);
@@ -25,9 +27,10 @@ void setup()
 {
   initializeLeds();
   initButtonsAndButtonInterrupts();
-  // initializeDisplay();
-  initializeTimer();
-  interrupts();
+  initializeDisplay();
+  initializeTimer();  // now called from timer.cpp
+  interrupts();       // enable interrupts globally
+}
 
 void loop()
 {
@@ -64,7 +67,7 @@ void checkGame(byte btn)
   if (btn == ledSequence[expectedIndex]) {
     expectedIndex++;
     score++;
-    // showResult(score);
+    showResult(score);
 
     // Finished current sequence, wait for timer to extend it
     if (expectedIndex >= sequenceLength) {
@@ -85,7 +88,7 @@ void initializeGame()
   score = 0;
   expectedIndex = 0;
   clearAllLeds();
-  // showResult(0);
+  showResult(0);
 }
 
 void startTheGame()
