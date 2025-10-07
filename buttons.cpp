@@ -1,6 +1,8 @@
 #include "buttons.h"
 
 extern volatile int buttonNumber;
+volatile uint8_t lastDebounceTime = 0;
+const uint8_t debounceDelay = 50;
 
 void initButtonsAndButtonInterrupts(void)
 {
@@ -16,7 +18,8 @@ void initButtonsAndButtonInterrupts(void)
 }
 
 ISR(PCINT2_vect) {
-
+  uint8_t currentTime = millis() & 0XFF; //debounce
+  if ((uint8_t)(currentTime - lastDebounceTime) > debounceDelay) {
   if (!(PIND & (1 << PIND2))) {
   buttonNumber = 2; //Pinni 2 nappi
   }
@@ -32,10 +35,6 @@ ISR(PCINT2_vect) {
   else if (!(PIND &(1 << PIND6))) {
     buttonNumber = 6; //Pinni 6 nappi (aloitus)?
   }
+  lastDebounceTime = currentTime; //Laitetaan lastDebounceTimeen nykyinen aika.
 }
-
-   /*
-     Here you implement logic for handling
-	 interrupts from 2,3,4,5 pins for Game push buttons
-	 and for pin 6 for start Game push button.
-   */
+}
