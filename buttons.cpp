@@ -1,8 +1,10 @@
 #include "buttons.h"
 
 extern volatile int buttonNumber;
-volatile uint8_t lastDebounceTime = 0;
-const uint8_t debounceDelay = 50;
+
+// MUUTOS: Vaihdettu uint8_t -> unsigned long jotta millis() toimii oikein
+volatile unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50;
 
 void initButtonsAndButtonInterrupts(void)
 {
@@ -18,8 +20,9 @@ void initButtonsAndButtonInterrupts(void)
 }
 
 ISR(PCINT2_vect) {
-  uint8_t currentTime = millis() & 0XFF; //debounce
-  if ((uint8_t)(currentTime - lastDebounceTime) > debounceDelay) {
+  // MUUTOS: Käytetään täyttä millis() arvoa ilman & 0xFF maskia
+  unsigned long currentTime = millis(); //debounce
+  if ((currentTime - lastDebounceTime) > debounceDelay) {
   if (!(PIND & (1 << PIND2))) {
   buttonNumber = 2; //Pinni 2 nappi
   }
@@ -37,4 +40,5 @@ ISR(PCINT2_vect) {
   }
   lastDebounceTime = currentTime; //Laitetaan lastDebounceTimeen nykyinen aika.
 }
-}
+}'
+'
