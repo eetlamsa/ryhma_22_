@@ -4,23 +4,23 @@
 #include "timer.h"
 #include "display.h"
 
-// -------- Declarations --------
+// -------- Alustukset --------
 void initializeGame(void);
 void checkGame(byte lastButtonPress);
 void startTheGame(void);
 void adjustTimerSpeed(void); // LISÄTTY: Nopeuden säätöfunktio
 
-// -------- Global Variables --------
+// -------- Globaalit muuttujat --------
 
-// Button pressed in ISR (-1 = none)
+// Nappi painettu keskeytyksessä (-1 = ei painallusta)
 volatile int buttonNumber = -1;       
 
-// Set true in timer ISR, cleared in loop()
+// Asetetaan true ajastimen keskeytyksessä, poistetaan loop():ssa
 extern volatile bool newTimerInterrupt;  
 
-// Game state
-uint16_t score = 0;        // player score (0–65,535)
-uint8_t expectedIndex = 0; // current position in sequence (0–200 max)
+// Pelin tila
+uint16_t score = 0;        // pelaajan pisteet (0–65,535)
+uint8_t expectedIndex = 0; // tämän hetkinen kohta sekvenssissä (0–200 max)
 
 // LISÄTTY: Muuttujat nopeuden kasvattamista varten
 uint8_t correctPresses = 0;  // Oikeiden painalluksien laskuri
@@ -35,27 +35,26 @@ void setup()
   initializeDisplay();
   initializeTimer();
   interrupts();
-  
   showResult(0); // LISÄTTY: Näytetään alkutulos
 }
 
 void loop()
 {
-  // --- Handle button press ---
+  // --- Käsittelee napin painallukset ---
   if (buttonNumber >= 0) {
     int8_t pressed = buttonNumber;
-    buttonNumber = -1; // reset for next press
+    buttonNumber = -1; // Nollaa seuraavaa varten
 
-    if (pressed == 6) { // start button
+    if (pressed == 6) { // aloitus nappi
       startTheGame();
     } else if (pressed >= 2 && pressed <= 5) {
-      // map pins 2..5 → led numbers 0..3
+      // muunnetaan pinnit 2..5 → LED -numeroiksi 0..3
       byte btn = static_cast<byte>(pressed - 2);
       checkGame(btn);
     }
   }
   
-  // --- Handle timer tick ---
+  // --- Käsittelee ajastimen pulssin ---
   if (newTimerInterrupt) {
     newTimerInterrupt = false;
 
@@ -70,12 +69,12 @@ void loop()
   }
 }
 
-// --- Check if player's button is correct ---
+// --- Tarkistaa, onko pelaajan painallus oikein  ---
 void checkGame(byte btn)
 {
   // Estetään painallukset ennen kuin ledi on näytetty
   if (expectedIndex >= sequenceLength) {
-    return; // ignore presses ahead of sequence
+    return; // ohitetaan painallukset ennen sekvenssiä
   }
 
   // Tarkistetaan onko nappi oikea
