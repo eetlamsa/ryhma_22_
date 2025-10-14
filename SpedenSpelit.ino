@@ -177,7 +177,7 @@ void handleHighScoreView(void) {
   showResult(0); // tyhjää näytön
 }
 
-/*
+
 
 // -------- Nollaa tulokset --------
 void checkForResetAtStartup(void) {
@@ -192,5 +192,3 @@ void checkForResetAtStartup(void) {
     clearAllLeds();
   }
 }
-
-*/
