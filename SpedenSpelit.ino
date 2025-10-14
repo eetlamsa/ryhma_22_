@@ -112,6 +112,7 @@ void checkGame(byte btn)
 
     // Tallenna tulos parhaisiin tuloksiin
     saveHighScore(score);
+    show2();
     
     // Nollataan pelin tila mutta pidetään lopputulos näytössä
     sequenceLength = 0;
@@ -161,6 +162,7 @@ void initializeGame()
 
 void startTheGame()
 {
+  show1();
   initializeGame();
   resetTickCount();
   startTimer();
@@ -176,8 +178,6 @@ void handleHighScoreView(void) {
   }
   showResult(0); // tyhjää näytön
 }
-
-
 
 // -------- Nollaa tulokset --------
 void checkForResetAtStartup(void) {

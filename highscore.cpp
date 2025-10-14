@@ -35,7 +35,7 @@ void initializeHighScores(void) {
   sortScoresDescending();
 }
 
-// Palauttaa i:nnen pistemäärän (jos indeksi on virheellinen → palauttaa 0)
+// Palauttaa pistelistan i. arvon (jos indeksi on virheellinen → palauttaa 0)
 uint8_t getHighScore(uint8_t index) {
   if (index < MAX_SCORES) {
     return highScores[index];
