@@ -40,5 +40,4 @@ ISR(PCINT2_vect) {
   }
   lastDebounceTime = currentTime; //Laitetaan lastDebounceTimeen nykyinen aika.
 }
-}'
-'
+}

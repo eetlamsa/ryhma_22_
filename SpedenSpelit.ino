@@ -3,12 +3,15 @@
 #include "SpedenSpelit.h"
 #include "timer.h"
 #include "display.h"
+#include "highscore.h"
 
 // -------- Alustukset --------
 void initializeGame(void);
 void checkGame(byte lastButtonPress);
 void startTheGame(void);
 void adjustTimerSpeed(void); // LISÄTTY: Nopeuden säätöfunktio
+void handleHighScoreView(void);
+// void checkForResetAtStartup(void); // testausta varten tehty funktio
 
 // -------- Globaalit muuttujat --------
 
@@ -34,6 +37,8 @@ void setup()
   initButtonsAndButtonInterrupts();
   initializeDisplay();
   initializeTimer();
+  initializeHighScores(); // lataa tallennetun high scoren
+  // checkForResetAtStartup(); // nollaa tulokset jos painetaan kahta tiettyä nappia yhtä aikaa
   interrupts();
   showResult(0); // LISÄTTY: Näytetään alkutulos
 }
@@ -49,8 +54,14 @@ void loop()
       startTheGame();
     } else if (pressed >= 2 && pressed <= 5) {
       // muunnetaan pinnit 2..5 → LED -numeroiksi 0..3
-      byte btn = static_cast<byte>(pressed - 2);
-      checkGame(btn);
+      // Jos peli ei ole käynnissä näytä high score
+      if (sequenceLength == 0) {
+        handleHighScoreView();
+      } 
+      else {
+        byte btn = static_cast<byte>(pressed - 2);
+        checkGame(btn);
+      }
     }
   }
   
@@ -98,6 +109,9 @@ void checkGame(byte btn)
     setAllLeds();
     delay(2000);
     clearAllLeds();
+
+    // Tallenna tulos parhaisiin tuloksiin
+    saveHighScore(score);
     
     // Nollataan pelin tila mutta pidetään lopputulos näytössä
     sequenceLength = 0;
@@ -151,3 +165,32 @@ void startTheGame()
   resetTickCount();
   startTimer();
 }
+
+// -------- High Scoren näyttö --------
+void handleHighScoreView(void) {
+  // Luuppaa kaikkien 10 tallennetun tuloksen läpi
+  for (uint8_t i = 0; i < 10; i++) {
+    uint8_t scoreToShow = getHighScore(i);
+    showResult(scoreToShow);
+    delay(2000);  // näytä tulosta 2s, muuta jos tarvii pidemmän ajan
+  }
+  showResult(0); // tyhjää näytön
+}
+
+/*
+
+// -------- Nollaa tulokset --------
+void checkForResetAtStartup(void) {
+  // Paina 2 ja 5 nappeja jos haluat nollata tuloksen
+  pinMode(2, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
+
+  if (digitalRead(2) == LOW && digitalRead(5) == LOW) {
+    resetHighScores();
+    setAllLeds();
+    delay(1500);
+    clearAllLeds();
+  }
+}
+
+*/
